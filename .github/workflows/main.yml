@@ -1,3 +1,4 @@
+
 name: Build Alok Keyboard APK
 
 on:
@@ -14,14 +15,22 @@ jobs:
       - name: Checkout project
         uses: actions/checkout@v4
 
+      - name: Extract keyboard project
+        run: unzip -q AlokKeyboard_FIXED.zip -d .
+
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
 
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.7'
 
       - name: Build APK
         working-directory: alok_fix
@@ -32,3 +41,4 @@ jobs:
         with:
           name: AlokKeyboard-APK
           path: alok_fix/app/build/outputs/apk/debug/*.apk
+          
