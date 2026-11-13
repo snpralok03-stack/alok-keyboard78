@@ -15,7 +15,7 @@ jobs:
       - name: Checkout project
         uses: actions/checkout@v4
 
-      - name: Extract keyboard project
+      - name: Extract project ZIP
         run: unzip -q AlokKeyboard_FIXED.zip -d .
 
       - name: Setup Java
@@ -25,16 +25,16 @@ jobs:
           java-version: '17'
 
       - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: android-actions/setup-android@v4
         with:
-          gradle-version: '8.7'
+          accept-android-sdk-licenses: 'true'
+          log-accepted-android-sdk-licenses: 'false'
 
       - name: Build APK
         working-directory: alok_fix
-        run: gradle assembleDebug
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
